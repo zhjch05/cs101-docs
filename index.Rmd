@@ -1,0 +1,12 @@
+---
+title: "CS101 Project Documentation"
+date: "`r Sys.Date()`"
+author: "Jincheng Zhang"
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook: default
+  bookdown::pdf_book: default
+github-repo: zhjch05/cs101-docs
+description: "A documentation website/book powered by R bookdown for Brandeis COSI101A AI project"
+---
