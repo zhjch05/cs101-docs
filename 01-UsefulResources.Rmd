@@ -78,6 +78,10 @@ R Introduction
 
 [(pdf)](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) R Intro
 
+**Tutorialspoint: R**
+
+https://www.tutorialspoint.com/r/index.htm
+
 **Data Visualization in R with ggplot2**
 
 http://varianceexplained.org/RData/code/code_lesson2/
@@ -103,6 +107,10 @@ Deep MNIST for Experts (Convolutional Neural Network)
 https://rstudio.github.io/tensorflow/tutorial_mnist_pros.html
 
 ### Python Resources
+
+**Tutorialspoint: Python**
+
+https://www.tutorialspoint.com/python/index.htm
 
 **PyCharm: A Python IDE**
 
