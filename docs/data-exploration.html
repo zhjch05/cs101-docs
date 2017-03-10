@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CS101 Project Documentation</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="A documentation website/book powered by R bookdown for Brandeis COSI101A AI project">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="CS101 Project Documentation" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A documentation website/book powered by R bookdown for Brandeis COSI101A AI project" />
+  <meta name="github-repo" content="zhjch05/cs101-docs" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="CS101 Project Documentation" />
+  
+  <meta name="twitter:description" content="A documentation website/book powered by R bookdown for Brandeis COSI101A AI project" />
+  
+
+<meta name="author" content="Jincheng Zhang">
+
+
+<meta name="date" content="2017-03-09">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="useful-resources.html">
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>2</b> Useful Resources</a><ul>
+<li class="chapter" data-level="2.1" data-path="useful-resources.html"><a href="useful-resources.html#resources-on-theories"><i class="fa fa-check"></i><b>2.1</b> Resources on Theories</a></li>
+<li class="chapter" data-level="2.2" data-path="useful-resources.html"><a href="useful-resources.html#resources-on-coding"><i class="fa fa-check"></i><b>2.2</b> Resources on Coding</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="useful-resources.html"><a href="useful-resources.html#r-resources"><i class="fa fa-check"></i><b>2.2.1</b> R Resources</a></li>
+<li class="chapter" data-level="2.2.2" data-path="useful-resources.html"><a href="useful-resources.html#python-resources"><i class="fa fa-check"></i><b>2.2.2</b> Python Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-exploration.html"><a href="data-exploration.html"><i class="fa fa-check"></i><b>3</b> Data Exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-exploration.html"><a href="data-exploration.html#load-packages"><i class="fa fa-check"></i><b>3.1</b> Load Packages</a></li>
+<li class="chapter" data-level="3.2" data-path="data-exploration.html"><a href="data-exploration.html#load-data-and-refine-for-r"><i class="fa fa-check"></i><b>3.2</b> Load data and Refine for R</a></li>
+<li class="chapter" data-level="3.3" data-path="data-exploration.html"><a href="data-exploration.html#plot-pricings-with-interest_level"><i class="fa fa-check"></i><b>3.3</b> Plot pricings with interest_level</a></li>
+<li class="chapter" data-level="3.4" data-path="data-exploration.html"><a href="data-exploration.html#plot-bedrooms-with-interest_level"><i class="fa fa-check"></i><b>3.4</b> Plot bedrooms with interest_level</a></li>
+<li class="chapter" data-level="3.5" data-path="data-exploration.html"><a href="data-exploration.html#plot-pricings-per-bedroom"><i class="fa fa-check"></i><b>3.5</b> Plot pricings per bedroom</a></li>
+<li class="chapter" data-level="3.6" data-path="data-exploration.html"><a href="data-exploration.html#plot-bedrooms-and-bathrooms-with-interest_level"><i class="fa fa-check"></i><b>3.6</b> Plot bedrooms and bathrooms with interest_level</a></li>
+<li class="chapter" data-level="3.7" data-path="data-exploration.html"><a href="data-exploration.html#plot-bedrooms-and-prices-as-classifier"><i class="fa fa-check"></i><b>3.7</b> Plot bedrooms and prices as classifier</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">CS101 Project Documentation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-exploration" class="section level1">
+<h1><span class="header-section-number">3</span> Data Exploration</h1>
+<div id="load-packages" class="section level2">
+<h2><span class="header-section-number">3.1</span> Load Packages</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#load packages</span>
+<span class="kw">library</span>(jsonlite)
+<span class="kw">library</span>(dplyr)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(magrittr)
+<span class="kw">library</span>(ggmap)</code></pre></div>
+<pre><code>## Google Maps API Terms of Service: http://developers.google.com/maps/terms.</code></pre>
+<pre><code>## Please cite ggmap if you use it: see citation(&quot;ggmap&quot;) for details.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggmap&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:magrittr&#39;:
+## 
+##     inset</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)</code></pre></div>
+</div>
+<div id="load-data-and-refine-for-r" class="section level2">
+<h2><span class="header-section-number">3.2</span> Load data and Refine for R</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#load data</span>
+train_path &lt;-<span class="st"> &quot;./input/train.json&quot;</span>
+training &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(train_path) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>bind_rows 
+
+<span class="co"># Keep list variables </span>
+features &lt;-<span class="st"> </span>training<span class="op">$</span>features
+photos &lt;-<span class="st"> </span>training<span class="op">$</span>photos
+
+<span class="co"># Remove list variables from data</span>
+training<span class="op">$</span>features &lt;-<span class="st"> </span><span class="ot">NULL</span>
+training<span class="op">$</span>photos &lt;-<span class="st"> </span><span class="ot">NULL</span> 
+
+<span class="co"># Convert to data.frame</span>
+training &lt;-<span class="st"> </span><span class="kw">sapply</span>(training, unlist) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">data.frame</span>(., <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># Add removed variables</span>
+training<span class="op">$</span>features &lt;-<span class="st"> </span>features
+training<span class="op">$</span>photos &lt;-<span class="st"> </span>photos
+
+<span class="co"># Clean memory</span>
+<span class="kw">rm</span>(features)
+<span class="kw">rm</span>(photos)
+
+<span class="co">#head(training, n = 1)</span>
+
+<span class="co">#numeric factor</span>
+numerical_variables &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bathrooms&quot;</span>, <span class="st">&quot;bedrooms&quot;</span>,
+                         <span class="st">&quot;longitude&quot;</span>, <span class="st">&quot;latitude&quot;</span>, <span class="st">&quot;price&quot;</span>)
+
+training[, numerical_variables] <span class="op">%&lt;&gt;%</span>
+<span class="st">  </span><span class="kw">lapply</span>(., as.numeric)
+
+training<span class="op">$</span>interest_level &lt;-<span class="st"> </span><span class="kw">as.factor</span>(training<span class="op">$</span>interest_level)
+
+<span class="co">#Glance at what the data is like</span>
+<span class="kw">head</span>(training, <span class="dt">n =</span> <span class="dv">1</span>)</code></pre></div>
+<pre><code>##   bathrooms bedrooms                      building_id             created
+## 1         1        1 8579a0b0d54db803821a35a4a615e97a 2016-06-16 05:55:27
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 description
+## 1 Spacious 1 Bedroom 1 Bathroom in Williamsburg!Apartment Features:- Renovated Eat in Kitchen With Dishwasher- Renovated Bathroom- Beautiful Hardwood Floors- Lots of Sunlight- Great Closet Space- Freshly Painted- Heat and Hot Water Included- Live in Super Nearby L, J, M &amp; G Trains !&lt;br /&gt;&lt;br /&gt;Contact Information:Kenneth BeakExclusive AgentC: 064-692-8838Email: kagglemanager@renthop.com, Text or Email to schedule a private viewing!&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;p&gt;&lt;a  website_redacted 
+##       display_address latitude listing_id longitude
+## 1 145 Borinquen Place  40.7108    7170325  -73.9539
+##                         manager_id price      street_address
+## 1 a10db4590843d78c784171a107bdacb4  2400 145 Borinquen Place
+##   interest_level
+## 1         medium
+##                                                                                             features
+## 1 Dining Room, Pre-War, Laundry in Building, Dishwasher, Hardwood Floors, Dogs Allowed, Cats Allowed
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               photos
+## 1 https://photos.renthop.com/2/7170325_3bb5ac84a5a10227b17b273e79bd77b4.jpg, https://photos.renthop.com/2/7170325_a29a17a771ee6af213966699b05c8ea2.jpg, https://photos.renthop.com/2/7170325_149a898e8760cac1cad56e30cfe98baa.jpg, https://photos.renthop.com/2/7170325_f74a43d781bcc3c5588e61dd47de81ba.jpg, https://photos.renthop.com/2/7170325_e677d9d249ac99abe01aa5454c6e9f59.jpg, https://photos.renthop.com/2/7170325_960ea0e180bf2f15467b68b455db6172.jpg, https://photos.renthop.com/2/7170325_cbc1b8437155dbf7f5d63b3a0b5a45a3.jpg, https://photos.renthop.com/2/7170325_9a9f2adc2ce922e1d5394727efdf64bb.jpg, https://photos.renthop.com/2/7170325_aae2a39d536103eebb282775fab1c315.jpg, https://photos.renthop.com/2/7170325_cd290d0051b9f08e3482195dcbf6b5a6.jpg, https://photos.renthop.com/2/7170325_a2b599da7880eea1edd10c4b04250dc1.jpg, https://photos.renthop.com/2/7170325_6b83fa82d662bcb09733ac3a8a107113.jpg</code></pre>
+</div>
+<div id="plot-pricings-with-interest_level" class="section level2">
+<h2><span class="header-section-number">3.3</span> Plot pricings with interest_level</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">price_upper &lt;-<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">ggplot</span>(training[training<span class="op">$</span>price <span class="op">&lt;</span><span class="st"> </span>price_upper, ],
+       <span class="kw">aes</span>(price, <span class="dt">color =</span> interest_level)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>)</code></pre></div>
+<p><img src="cs101-project_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="plot-bedrooms-with-interest_level" class="section level2">
+<h2><span class="header-section-number">3.4</span> Plot bedrooms with interest_level</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(training,
+       <span class="kw">aes</span>(bedrooms, <span class="dt">fill =</span> interest_level)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="dt">stat =</span> <span class="st">&quot;count&quot;</span>)</code></pre></div>
+<pre><code>## Warning: Ignoring unknown parameters: binwidth, bins, pad</code></pre>
+<p><img src="cs101-project_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="plot-pricings-per-bedroom" class="section level2">
+<h2><span class="header-section-number">3.5</span> Plot pricings per bedroom</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#code from https://www.kaggle.com/cwaring/two-sigma-connect-rental-listing-inquiries/starter-script-with-xgb-in-r/code</span>
+
+<span class="co">#price to bedroom ratio</span>
+training<span class="op">$</span>bed_price &lt;-<span class="st"> </span>training<span class="op">$</span>price<span class="op">/</span>training<span class="op">$</span>bedrooms
+training[<span class="kw">which</span>(<span class="kw">is.infinite</span>(training<span class="op">$</span>bed_price)),]<span class="op">$</span>bed_price =<span class="st"> </span>training[<span class="kw">which</span>(<span class="kw">is.infinite</span>(training<span class="op">$</span>bed_price)),]<span class="op">$</span>price
+
+bed_price_upper &lt;-<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">ggplot</span>(training[training<span class="op">$</span>bed_price <span class="op">&lt;</span><span class="st"> </span>bed_price_upper, ],
+       <span class="kw">aes</span>(bed_price, <span class="dt">color =</span> interest_level)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="cs101-project_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="plot-bedrooms-and-bathrooms-with-interest_level" class="section level2">
+<h2><span class="header-section-number">3.6</span> Plot bedrooms and bathrooms with interest_level</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(training, <span class="kw">aes</span>(<span class="dt">x=</span>bedrooms, <span class="dt">y=</span>bathrooms, <span class="dt">color=</span>interest_level)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="cs101-project_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="plot-bedrooms-and-prices-as-classifier" class="section level2">
+<h2><span class="header-section-number">3.7</span> Plot bedrooms and prices as classifier</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">price_upper &lt;-<span class="st"> </span><span class="dv">9000</span>
+<span class="kw">ggplot</span>(training[training<span class="op">$</span>price <span class="op">&lt;</span><span class="st"> </span>price_upper, ], <span class="kw">aes</span>(<span class="dt">x=</span>price, <span class="dt">y=</span>bedrooms, <span class="dt">color=</span>interest_level)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="cs101-project_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="useful-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

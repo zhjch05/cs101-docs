@@ -1,0 +1,94 @@
+# Data Exploration
+
+## Load Packages
+```{r}
+#load packages
+library(jsonlite)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(ggmap)
+library(knitr)
+```
+
+## Load data and Refine for R
+```{r}
+#load data
+train_path <- "./input/train.json"
+training <- fromJSON(train_path) %>% 
+  bind_rows 
+
+# Keep list variables 
+features <- training$features
+photos <- training$photos
+
+# Remove list variables from data
+training$features <- NULL
+training$photos <- NULL 
+
+# Convert to data.frame
+training <- sapply(training, unlist) %>%
+  data.frame(., stringsAsFactors = FALSE)
+
+# Add removed variables
+training$features <- features
+training$photos <- photos
+
+# Clean memory
+rm(features)
+rm(photos)
+
+#head(training, n = 1)
+
+#numeric factor
+numerical_variables <- c("bathrooms", "bedrooms",
+                         "longitude", "latitude", "price")
+
+training[, numerical_variables] %<>%
+  lapply(., as.numeric)
+
+training$interest_level <- as.factor(training$interest_level)
+
+#Glance at what the data is like
+head(training, n = 1)
+```
+
+##Plot pricings with interest_level
+```{r}
+price_upper <- 10000
+ggplot(training[training$price < price_upper, ],
+       aes(price, color = interest_level)) +
+  geom_density(alpha = 0.1)
+```
+
+##Plot bedrooms with interest_level
+```{r}
+ggplot(training,
+       aes(bedrooms, fill = interest_level)) +
+  geom_histogram(alpha = 0.7, stat = "count")
+```
+
+##Plot pricings per bedroom
+```{r}
+#code from https://www.kaggle.com/cwaring/two-sigma-connect-rental-listing-inquiries/starter-script-with-xgb-in-r/code
+
+#price to bedroom ratio
+training$bed_price <- training$price/training$bedrooms
+training[which(is.infinite(training$bed_price)),]$bed_price = training[which(is.infinite(training$bed_price)),]$price
+
+bed_price_upper <- 10000
+ggplot(training[training$bed_price < bed_price_upper, ],
+       aes(bed_price, color = interest_level)) +
+  geom_density()
+```
+
+##Plot bedrooms and bathrooms with interest_level
+```{r}
+ggplot(training, aes(x=bedrooms, y=bathrooms, color=interest_level)) + geom_point()
+```
+
+##Plot bedrooms and prices as classifier
+```{r}
+price_upper <- 9000
+ggplot(training[training$price < price_upper, ], aes(x=price, y=bedrooms, color=interest_level)) + geom_point()
+```
