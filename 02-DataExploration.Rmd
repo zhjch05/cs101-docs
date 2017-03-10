@@ -1,7 +1,7 @@
 # Data Exploration
 
 ## Load Packages
-```{r}
+```{r load-library}
 #load packages
 library(jsonlite)
 library(dplyr)
@@ -12,7 +12,7 @@ library(knitr)
 ```
 
 ## Load data and Refine for R
-```{r}
+```{r load-data}
 #load data
 train_path <- "./input/train.json"
 training <- fromJSON(train_path) %>% 
@@ -54,7 +54,7 @@ head(training, n = 1)
 ```
 
 ##Plot pricings with interest_level
-```{r}
+```{r pricings_interest_level, fig.cap = 'Price with interest_level'}
 price_upper <- 10000
 ggplot(training[training$price < price_upper, ],
        aes(price, color = interest_level)) +
@@ -62,14 +62,14 @@ ggplot(training[training$price < price_upper, ],
 ```
 
 ##Plot bedrooms with interest_level
-```{r}
+```{r bedrooms_interest_level, fig.cap = 'Bedrooms with interest_level'}
 ggplot(training,
        aes(bedrooms, fill = interest_level)) +
   geom_histogram(alpha = 0.7, stat = "count")
 ```
 
 ##Plot pricings per bedroom
-```{r}
+```{r price-per-bedroom, fig.cap = 'Price per bedroom with interest_level'}
 #code from https://www.kaggle.com/cwaring/two-sigma-connect-rental-listing-inquiries/starter-script-with-xgb-in-r/code
 
 #price to bedroom ratio
@@ -88,7 +88,7 @@ ggplot(training, aes(x=bedrooms, y=bathrooms, color=interest_level)) + geom_poin
 ```
 
 ##Plot bedrooms and prices as classifier
-```{r}
+```{r bedroom-price-classifier, fig.cap = 'Bedrooms and prices as interest_level classifier'}
 price_upper <- 9000
 ggplot(training[training$price < price_upper, ], aes(x=price, y=bedrooms, color=interest_level)) + geom_point()
 ```
