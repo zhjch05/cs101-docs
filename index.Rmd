@@ -10,3 +10,12 @@ output:
 github-repo: zhjch05/cs101-docs
 description: "A documentation website/book powered by R bookdown for Brandeis COSI101A AI project"
 ---
+
+# Preface
+This website/book is intended to host a documentation for our Brandeis COSI101A AI project.
+
+Course Name: COSI101A Artificial Intelligence
+
+Professor: Pengyu Hong
+
+Institution: Brandeis University
