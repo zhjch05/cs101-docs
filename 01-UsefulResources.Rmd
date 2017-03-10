@@ -102,8 +102,6 @@ Deep MNIST for Experts (Convolutional Neural Network)
 
 https://rstudio.github.io/tensorflow/tutorial_mnist_pros.html
 
-https://rstudio.github.io/tensorflow/tutorial_mnist_pros.html
-
 ### Python Resources
 
 **PyCharm: A Python IDE**
