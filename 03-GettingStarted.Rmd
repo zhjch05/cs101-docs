@@ -1,0 +1,26 @@
+# Getting Started with TensorFlow
+
+## Install Tensorflow
+
+Install Python
+
+https://www.python.org/downloads/
+
+Install Tensorflow
+
+https://www.tensorflow.org/install/
+
+Beginner MINST
+
+https://www.tensorflow.org/get_started/mnist/beginners
+
+## TensorFlow setup in R
+```{r test-tensorflow}
+library(reticulate)
+use_virtualenv("~/tensorflow")
+library(tensorflow)
+sess = tf$Session()
+hello <- tf$constant('Hello, TensorFlow!')
+sess$run(hello)
+```
+
