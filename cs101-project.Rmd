@@ -1,0 +1,353 @@
+---
+title: "CS101 Project Documentation"
+date: "`r Sys.Date()`"
+author: "Jincheng Zhang"
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook:
+    highlight: tango
+  bookdown::pdf_book: default
+github-repo: zhjch05/cs101-docs
+description: "A documentation website/book powered by R bookdown for Brandeis COSI101A AI project"
+---
+
+# Preface
+This website/book is intended to host a documentation for our Brandeis COSI101A AI project.
+
+Course Name: COSI101A Artificial Intelligence
+
+Professor: Pengyu Hong
+
+Institution: Brandeis University
+
+<!--chapter:end:index.Rmd-->
+
+# Useful Resources
+
+## Resources on Theories
+
+**Math supplemental notes**
+
+Stanford Machine Learning math notes
+
+http://cs229.stanford.edu/materials.html
+
+Highlights:
+
+[(pdf)](http://cs229.stanford.edu/section/cs229-linalg.pdf) Linear Algebra Review and Reference
+
+[(pdf)](http://cs229.stanford.edu/section/cs229-prob.pdf) Probability Theory Review
+
+**Textbooks**
+
+Course Textbook
+
+Artificial Intelligence: A Modern Approach (3rd Edition)
+
+Further readings:
+
+ISLR: An Introduction to Statistical Learning with Applications in R
+
+http://www-bcf.usc.edu/~gareth/ISL/
+
+ESL: The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Second Edition
+
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
+**MOOC websites**
+
+In companion with ISLR:
+
+https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/
+
+Coursera Stanford Machine Learning
+
+https://www.coursera.org/learn/machine-learning/home/welcome
+
+CMU Data Mining
+
+http://www.stat.cmu.edu/~ryantibs/datamining/
+
+**Others**
+
+Visual Information Theory
+
+http://colah.github.io/posts/2015-09-Visual-Information/
+
+## Resources on Coding
+
+**Project Kaggle page**
+
+https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries
+
+**bookdown**
+
+The package that builds this website.
+
+https://bookdown.org/yihui/bookdown/
+
+**prism.js**
+
+Alternative highlight javascript
+
+http://prismjs.com/#basic-usage
+
+### R Resources
+
+**Official Manuals**
+
+https://cran.r-project.org/manuals.html
+
+R Introduction
+
+[(pdf)](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) R Intro
+
+**Tutorialspoint: R**
+
+https://www.tutorialspoint.com/r/index.htm
+
+**Data Visualization in R with ggplot2**
+
+http://varianceexplained.org/RData/code/code_lesson2/
+
+**ggplot2 Documentation**
+
+http://docs.ggplot2.org/current/
+
+**Plotting NYC Map**
+
+https://www.kaggle.com/enrique1500/two-sigma-connect-rental-listing-inquiries/rental-listing-ny-map
+
+**TensorFlow in R**
+
+https://rstudio.github.io/tensorflow/index.html
+
+MNIST For ML Beginners (Softmax Regression)
+
+https://rstudio.github.io/tensorflow/tutorial_mnist_beginners.html
+
+Deep MNIST for Experts (Convolutional Neural Network)
+
+https://rstudio.github.io/tensorflow/tutorial_mnist_pros.html
+
+### Python Resources
+
+**Tutorialspoint: Python**
+
+https://www.tutorialspoint.com/python/index.htm
+
+**PyCharm: A Python IDE**
+
+https://www.jetbrains.com/pycharm/
+
+**TensorFlow in Python**
+
+https://www.tensorflow.org/
+
+<!--chapter:end:01-UsefulResources.Rmd-->
+
+# Data Exploration
+
+## Load Packages
+```{r load-library}
+#load packages
+library(jsonlite)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(ggmap)
+library(knitr)
+```
+
+## Load data and Refine for R
+```{r load-data}
+#load data
+train_path <- "./input/train.json"
+training <- fromJSON(train_path) %>% 
+  bind_rows 
+
+# Keep list variables 
+features <- training$features
+photos <- training$photos
+
+# Remove list variables from data
+training$features <- NULL
+training$photos <- NULL 
+
+# Convert to data.frame
+training <- sapply(training, unlist) %>%
+  data.frame(., stringsAsFactors = FALSE)
+
+# Add removed variables
+training$features <- features
+training$photos <- photos
+
+# Clean memory
+rm(features)
+rm(photos)
+
+#head(training, n = 1)
+
+#numeric factor
+numerical_variables <- c("bathrooms", "bedrooms",
+                         "longitude", "latitude", "price")
+
+training[, numerical_variables] %<>%
+  lapply(., as.numeric)
+
+training$interest_level <- as.factor(training$interest_level)
+
+#Glance at what the data is like
+head(training, n = 1)
+```
+
+##Plot pricings with interest_level
+```{r pricings_interest_level, fig.cap = 'Price with interest_level'}
+price_upper <- 10000
+ggplot(training[training$price < price_upper, ],
+       aes(price, color = interest_level)) +
+  geom_density(alpha = 0.1)
+```
+
+##Plot bedrooms with interest_level
+```{r bedrooms_interest_level, fig.cap = 'Bedrooms with interest_level'}
+ggplot(training,
+       aes(bedrooms, fill = interest_level)) +
+  geom_histogram(alpha = 0.7, stat = "count")
+```
+
+##Plot pricings per bedroom
+```{r price-per-bedroom, fig.cap = 'Price per bedroom with interest_level'}
+#code from https://www.kaggle.com/cwaring/two-sigma-connect-rental-listing-inquiries/starter-script-with-xgb-in-r/code
+
+#price to bedroom ratio
+training$bed_price <- training$price/training$bedrooms
+training[which(is.infinite(training$bed_price)),]$bed_price = training[which(is.infinite(training$bed_price)),]$price
+
+bed_price_upper <- 10000
+ggplot(training[training$bed_price < bed_price_upper, ],
+       aes(bed_price, color = interest_level)) +
+  geom_density()
+```
+
+##Plot bedrooms and bathrooms with interest_level
+```{r}
+ggplot(training, aes(x=bedrooms, y=bathrooms, color=interest_level)) + geom_point()
+```
+
+##Plot bedrooms and prices as classifier
+```{r bedroom-price-classifier, fig.cap = 'Bedrooms and prices as interest_level classifier'}
+price_upper <- 9000
+ggplot(training[training$price < price_upper, ], aes(x=price, y=bedrooms, color=interest_level)) + geom_point()
+```
+
+<!--chapter:end:02-DataExploration.Rmd-->
+
+# Getting Started with TensorFlow
+
+## Install Tensorflow
+
+Install Python
+
+https://www.python.org/downloads/
+
+Install Tensorflow
+
+https://www.tensorflow.org/install/
+
+Beginner MNIST
+
+https://www.tensorflow.org/get_started/mnist/beginners
+
+Preloaded data and Batching
+
+https://www.tensorflow.org/programmers_guide/reading_data#preloaded_data
+
+https://www.tensorflow.org/programmers_guide/reading_data#batching
+
+## TensorFlow setup in R
+```{r test-tensorflow}
+library(reticulate)
+use_virtualenv("~/tensorflow")
+```
+
+## Sigmoid Regression with limited data fields, and multiple log loss objective function
+
+**Data fields: bathrooms, bedrooms, price**
+
+```{python}
+import tensorflow as tf
+import pandas as pd
+import time
+import numpy as np
+
+data_path = "./input/"
+train_file = data_path + "train.json"
+test_file = data_path + "test.json"
+train_df = pd.read_json(train_file)
+test_df = pd.read_json(test_file)
+
+features = ["bathrooms","bedrooms","price"]
+labels = ["interest_level"]
+
+#convert to tensor
+training_data = tf.constant(train_df[features].as_matrix(), dtype=tf.float32)
+
+convert_dict = {
+    'high': 2,
+    'medium': 1,
+    'low': 0
+}
+
+training_labels = tf.one_hot(indices=tf.constant(train_df[labels].applymap(lambda x: convert_dict[x])['interest_level'].as_matrix()),depth=3)
+
+#Session
+with tf.Session() as sess:
+    x = tf.placeholder(tf.float32, [None, 3])
+    W = tf.Variable(tf.zeros([3,3]))
+    b = tf.Variable(tf.zeros([3]))
+    y = tf.nn.sigmoid(tf.matmul(x, W) + b)
+    y_ = tf.placeholder(tf.float32, [None, 3])
+
+    global_step = tf.Variable(0, name='global_step', trainable=False)
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=y, labels=y_))
+
+    train_op = tf.train.GradientDescentOptimizer(0.1).minimize(loss, global_step=global_step)
+
+    init_op = tf.group(tf.global_variables_initializer(),tf.local_variables_initializer())
+
+    sess.run(init_op)
+
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+
+    try:
+        step = 0
+        while not coord.should_stop():
+            if step > 100:
+                break
+            start_time = time.time()
+
+            next_data = training_data.eval()
+            next_labels = training_labels.eval()
+
+            _, loss_value = sess.run([train_op, loss], feed_dict={x: next_data[np.random.choice(next_data.shape[0], 100, replace=False), :], y_: next_labels[np.random.choice(next_labels.shape[0], 100, replace=False), :]})
+
+            duration = time.time() - start_time
+
+            print('Step %d: loss = %0.4f (%.3f sec)' % (step, loss_value, duration))
+
+            step+=1
+    except tf.errors.OutOfRangeError:
+        print('Done training for no epochs defined, %d steps.' % (step))
+    finally:
+        coord.request_stop()
+
+    coord.join(threads)
+    sess.close()
+```
+
+<!--chapter:end:03-GettingStarted.Rmd-->
+

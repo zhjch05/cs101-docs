@@ -10,17 +10,95 @@ Install Tensorflow
 
 https://www.tensorflow.org/install/
 
-Beginner MINST
+Beginner MNIST
 
 https://www.tensorflow.org/get_started/mnist/beginners
+
+Preloaded data and Batching
+
+https://www.tensorflow.org/programmers_guide/reading_data#preloaded_data
+
+https://www.tensorflow.org/programmers_guide/reading_data#batching
 
 ## TensorFlow setup in R
 ```{r test-tensorflow}
 library(reticulate)
 use_virtualenv("~/tensorflow")
-library(tensorflow)
-sess = tf$Session()
-hello <- tf$constant('Hello, TensorFlow!')
-sess$run(hello)
 ```
 
+## Sigmoid Regression with limited data fields, and multiple log loss objective function
+
+**Data fields: bathrooms, bedrooms, price**
+
+```{python}
+import tensorflow as tf
+import pandas as pd
+import time
+import numpy as np
+
+data_path = "./input/"
+train_file = data_path + "train.json"
+test_file = data_path + "test.json"
+train_df = pd.read_json(train_file)
+test_df = pd.read_json(test_file)
+
+features = ["bathrooms","bedrooms","price"]
+labels = ["interest_level"]
+
+#convert to tensor
+training_data = tf.constant(train_df[features].as_matrix(), dtype=tf.float32)
+
+convert_dict = {
+    'high': 2,
+    'medium': 1,
+    'low': 0
+}
+
+training_labels = tf.one_hot(indices=tf.constant(train_df[labels].applymap(lambda x: convert_dict[x])['interest_level'].as_matrix()),depth=3)
+
+#Session
+with tf.Session() as sess:
+    x = tf.placeholder(tf.float32, [None, 3])
+    W = tf.Variable(tf.zeros([3,3]))
+    b = tf.Variable(tf.zeros([3]))
+    y = tf.nn.sigmoid(tf.matmul(x, W) + b)
+    y_ = tf.placeholder(tf.float32, [None, 3])
+
+    global_step = tf.Variable(0, name='global_step', trainable=False)
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=y, labels=y_))
+
+    train_op = tf.train.GradientDescentOptimizer(0.1).minimize(loss, global_step=global_step)
+
+    init_op = tf.group(tf.global_variables_initializer(),tf.local_variables_initializer())
+
+    sess.run(init_op)
+
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+
+    try:
+        step = 0
+        while not coord.should_stop():
+            if step > 100:
+                break
+            start_time = time.time()
+
+            next_data = training_data.eval()
+            next_labels = training_labels.eval()
+
+            _, loss_value = sess.run([train_op, loss], feed_dict={x: next_data[np.random.choice(next_data.shape[0], 100, replace=False), :], y_: next_labels[np.random.choice(next_labels.shape[0], 100, replace=False), :]})
+
+            duration = time.time() - start_time
+
+            print('Step %d: loss = %0.4f (%.3f sec)' % (step, loss_value, duration))
+
+            step+=1
+    except tf.errors.OutOfRangeError:
+        print('Done training for no epochs defined, %d steps.' % (step))
+    finally:
+        coord.request_stop()
+
+    coord.join(threads)
+    sess.close()
+```

@@ -26,7 +26,7 @@
 <meta name="author" content="Jincheng Zhang">
 
 
-<meta name="date" content="2017-03-13">
+<meta name="date" content="2017-03-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -120,6 +120,7 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4" data-path="getting-started-with-tensorflow.html"><a href="getting-started-with-tensorflow.html"><i class="fa fa-check"></i><b>4</b> Getting Started with TensorFlow</a><ul>
 <li class="chapter" data-level="4.1" data-path="getting-started-with-tensorflow.html"><a href="getting-started-with-tensorflow.html#install-tensorflow"><i class="fa fa-check"></i><b>4.1</b> Install Tensorflow</a></li>
 <li class="chapter" data-level="4.2" data-path="getting-started-with-tensorflow.html"><a href="getting-started-with-tensorflow.html#tensorflow-setup-in-r"><i class="fa fa-check"></i><b>4.2</b> TensorFlow setup in R</a></li>
+<li class="chapter" data-level="4.3" data-path="getting-started-with-tensorflow.html"><a href="getting-started-with-tensorflow.html#sigmoid-regression-with-limited-data-fields-and-multiple-log-loss-objective-function"><i class="fa fa-check"></i><b>4.3</b> Sigmoid Regression with limited data fields, and multiple log loss objective function</a></li>
 </ul></li>
 </ul>
 
@@ -146,18 +147,90 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <p><a href="https://www.python.org/downloads/" class="uri">https://www.python.org/downloads/</a></p>
 <p>Install Tensorflow</p>
 <p><a href="https://www.tensorflow.org/install/" class="uri">https://www.tensorflow.org/install/</a></p>
-<p>Beginner MINST</p>
+<p>Beginner MNIST</p>
 <p><a href="https://www.tensorflow.org/get_started/mnist/beginners" class="uri">https://www.tensorflow.org/get_started/mnist/beginners</a></p>
+<p>Preloaded data and Batching</p>
+<p><a href="https://www.tensorflow.org/programmers_guide/reading_data#preloaded_data" class="uri">https://www.tensorflow.org/programmers_guide/reading_data#preloaded_data</a></p>
+<p><a href="https://www.tensorflow.org/programmers_guide/reading_data#batching" class="uri">https://www.tensorflow.org/programmers_guide/reading_data#batching</a></p>
 </div>
 <div id="tensorflow-setup-in-r" class="section level2">
 <h2><span class="header-section-number">4.2</span> TensorFlow setup in R</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reticulate)
-<span class="kw">use_virtualenv</span>(<span class="st">&quot;~/tensorflow&quot;</span>)
-<span class="kw">library</span>(tensorflow)
-sess =<span class="st"> </span>tf<span class="op">$</span><span class="kw">Session</span>()
-hello &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">constant</span>(<span class="st">&#39;Hello, TensorFlow!&#39;</span>)
-sess<span class="op">$</span><span class="kw">run</span>(hello)</code></pre></div>
-<pre><code>## b&#39;Hello, TensorFlow!&#39;</code></pre>
+<span class="kw">use_virtualenv</span>(<span class="st">&quot;~/tensorflow&quot;</span>)</code></pre></div>
+</div>
+<div id="sigmoid-regression-with-limited-data-fields-and-multiple-log-loss-objective-function" class="section level2">
+<h2><span class="header-section-number">4.3</span> Sigmoid Regression with limited data fields, and multiple log loss objective function</h2>
+<p><strong>Data fields: bathrooms, bedrooms, price</strong></p>
+<pre><code>import tensorflow as tf
+import pandas as pd
+import time
+import numpy as np
+
+data_path = &quot;./input/&quot;
+train_file = data_path + &quot;train.json&quot;
+test_file = data_path + &quot;test.json&quot;
+train_df = pd.read_json(train_file)
+test_df = pd.read_json(test_file)
+
+features = [&quot;bathrooms&quot;,&quot;bedrooms&quot;,&quot;price&quot;]
+labels = [&quot;interest_level&quot;]
+
+#convert to tensor
+training_data = tf.constant(train_df[features].as_matrix(), dtype=tf.float32)
+
+convert_dict = {
+    &#39;high&#39;: 2,
+    &#39;medium&#39;: 1,
+    &#39;low&#39;: 0
+}
+
+training_labels = tf.one_hot(indices=tf.constant(train_df[labels].applymap(lambda x: convert_dict[x])[&#39;interest_level&#39;].as_matrix()),depth=3)
+
+#Session
+with tf.Session() as sess:
+    x = tf.placeholder(tf.float32, [None, 3])
+    W = tf.Variable(tf.zeros([3,3]))
+    b = tf.Variable(tf.zeros([3]))
+    y = tf.nn.sigmoid(tf.matmul(x, W) + b)
+    y_ = tf.placeholder(tf.float32, [None, 3])
+
+    global_step = tf.Variable(0, name=&#39;global_step&#39;, trainable=False)
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=y, labels=y_))
+
+    train_op = tf.train.GradientDescentOptimizer(0.1).minimize(loss, global_step=global_step)
+
+    init_op = tf.group(tf.global_variables_initializer(),tf.local_variables_initializer())
+
+    sess.run(init_op)
+
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+
+    try:
+        step = 0
+        while not coord.should_stop():
+            if step &gt; 100:
+                break
+            start_time = time.time()
+
+            next_data = training_data.eval()
+            next_labels = training_labels.eval()
+
+            _, loss_value = sess.run([train_op, loss], feed_dict={x: next_data[np.random.choice(next_data.shape[0], 100, replace=False), :], y_: next_labels[np.random.choice(next_labels.shape[0], 100, replace=False), :]})
+
+            duration = time.time() - start_time
+
+            print(&#39;Step %d: loss = %0.4f (%.3f sec)&#39; % (step, loss_value, duration))
+
+            step+=1
+    except tf.errors.OutOfRangeError:
+        print(&#39;Done training for no epochs defined, %d steps.&#39; % (step))
+    finally:
+        coord.request_stop()
+
+    coord.join(threads)
+    sess.close()</code></pre>
 
 </div>
 </div>
